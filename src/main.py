@@ -4,19 +4,22 @@ LCM = [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"],
        ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"],
        ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"]]
 
+PUV = [True, False, True, False, True]
+
 
 def decide():
     # Setup
     functions = [func1, func2, func3] * 5
-    CMV = [False, True, True, True, False] #[False] * 15
+    CMV = [False, True, True, True, False]  # [False] * 15
     PUM = [[False] * 5 for _ in range(5)]
+    FUV = [False] * 5 #15
 
     # Gather CMV
-    #for i in range(len(CMV)):
-     #   if functions[i]():
-      #      CMV[i] = True
+    # for i in range(len(CMV)):
+    #   if functions[i]():
+    #      CMV[i] = True
 
-    print(CMV)
+    #print(CMV)
 
     # Calculate PUM
     for i in range(len(PUM)):
@@ -32,7 +35,21 @@ def decide():
 
             if i == j:
                 PUM[i][j] = "*"
-    print(PUM)
+    #print(PUM)
+
+    for i in range(len(FUV)):
+        if not PUV[i]:
+            FUV[i] = True
+
+        elif False not in PUM[i]:
+            FUV[i] = True
+
+    # print(FUV)
+
+    if all(FUV):
+        print("YES")
+    else:
+        print("NO")
 
 
 def func1():
