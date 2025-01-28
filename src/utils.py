@@ -6,8 +6,7 @@ def get_length(p1, p2):
     y = p1[1] - p2[1]
     return math.sqrt(x ** 2 + y ** 2)
 
-
-def checkIfColinear(p1, p2, p3, epsilon=1e-6):
+def check_if_colinear(p1, p2, p3, epsilon=1e-6):
     """
     Check if three points are collinear.
     """
@@ -73,3 +72,32 @@ def calc_angle(end1, vertex, end2):
     angle = math.acos(cos_angle)
 
     return angle
+
+def get_quadrant(x, y):
+    """
+    Return the quadrant number of a point (x, y), 
+    using the priority I > II > III > IV for axis points.
+
+    Quadrant labeling:
+      I:  x >= 0, y >= 0
+      II: x < 0,  y >= 0
+      III: x <= 0, y < 0
+      IV: x > 0,  y < 0
+    """
+    if x > 0:
+        if y >= 0:
+            return 1
+        else:
+            return 4
+    elif x < 0:
+        if y >= 0:
+            return 2
+        else:
+            return 3
+    else:  # x == 0
+        if y > 0:
+            return 1
+        elif y < 0:
+            return 3
+        else: 
+            return 1
