@@ -63,6 +63,19 @@ def LIC2(POINTS, EPSILON):
     
     return False
 
+def LIC3(AREA1, POINTS):
+    """
+    Check if there exists a set of three consecutive points that form a triangle
+    with an area greater than AREA1
+    """
+    if AREA1 < 0:
+        return False
+
+    for i in range(len(POINTS)-2):
+        if get_triangle_area(POINTS[i], POINTS[i+1], POINTS[i+2]) > AREA1:
+            return True
+    return False
+
 def LIC4(points, Q_PTS, QUADS):
     """
     Check if there exists a set of Q_PTS consecutive data points 
