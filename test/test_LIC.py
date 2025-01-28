@@ -4,10 +4,10 @@ from src.LIC import (
     LIC1,
     LIC2,
     LIC3,
-    LIC9,
+    LIC4,
     LIC5,
-    LIC12,
-
+    LIC9,
+    LIC12
 )
 
 @pytest.mark.parametrize(
@@ -67,6 +67,7 @@ def test_LIC1(POINTS, RADIUS1, expected_result):
         ([(0, 0), (1, 1), (2, 2), (3, 0)], -0.1, False),
     ]
 )
+
 def test_LIC2(POINTS, EPSILON, expected_result):
     result = LIC2(POINTS, EPSILON)
     assert result == expected_result
@@ -115,9 +116,6 @@ def test_LIC3(AREA1, POINTS, expected_result):
         # Negative case 5, D_PTS < 1
         ([(0, 0), (1, 1), (2, 2), (3, 0), (4, 0)], 0.1, 1, 0, False),
     ]
-    
-    
-    
 )
     
 def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
@@ -135,11 +133,37 @@ def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
         ([(1.3, 2.5), (3.4, 5.5), (10, 0), (100.1, 3.3)], False)
     ]
 )
+
 def test_LIC5(POINTS, expected_result):
     result = LIC5(POINTS)
     assert result == expected_result
+
+
+@pytest.mark.parametrize(
+    "points, Q_PTS, QUADS, expected_result",
+    [
+        # Negatice case: Small Q_PTS, all points in one quadrant
+        ([(1,1), (2,2), (3,3)], 2, 1, False),
+
+        # Positice case: Two consecutive points in different quadrants
+        ([(1,1), (-1,1)], 2, 1, True),
+
+        # Positive case: Three consecutive points crossing 3 quadrants 
+        ([(1,1), (-1,2), (0,-1), (1,-2)], 3, 2, True),
+
+        # Negatice case: Invalid Q_PTS < 2
+        ([(1,1), (2,2)], 1, 1, False),
+
+        # Negatice case: Q_PTS > number of points
+        ([(1,1), (2,2)], 3, 1, False),
+    ]
+)
+
+def test_LIC4(points, Q_PTS, QUADS, expected_result):
+    result = LIC4(points, Q_PTS, QUADS)
+    assert result == expected_result
     
-#create testcases for LIC12 params: length1, length2, k_pts, points
+
 @pytest.mark.parametrize(
     "length1, length2, k_pts, points, expected_result",
     [
@@ -163,3 +187,5 @@ def test_LIC5(POINTS, expected_result):
 def test_LIC12(length1, length2, k_pts, points, expected_result):
     result = LIC12(length1, length2, k_pts, points)
     assert result == expected_result
+
+

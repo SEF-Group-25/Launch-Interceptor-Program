@@ -1,5 +1,5 @@
 import numpy as np
-from src.utils import checkIfColinear, get_triangle_sides, get_triangle_area, calc_angle, get_length
+from src.utils import check_if_colinear, get_triangle_sides, get_triangle_area, calc_angle, get_length, get_quadrant
 
 def LIC0(length1, points):
     """
@@ -24,7 +24,7 @@ def LIC1(points, radius1):
     for i in range(n - 2):
         p1, p2, p3 = points[i], points[i+1], points[i+2]
 
-        if checkIfColinear(p1, p2, p3):
+        if check_if_colinear(p1, p2, p3):
             a, b, c = get_triangle_sides(p1, p2, p3)
             diameter = np.max([a, b, c])  
 
@@ -73,6 +73,21 @@ def LIC3(AREA1, POINTS):
 
     for i in range(len(POINTS)-2):
         if get_triangle_area(POINTS[i], POINTS[i+1], POINTS[i+2]) > AREA1:
+            return True
+    return False
+
+def LIC4(points, Q_PTS, QUADS):
+    """
+    Check if there exists a set of Q_PTS consecutive data points 
+    that occupy more than QUADS distinct quadrants.
+    """
+    n = len(points)
+    if Q_PTS < 2 or Q_PTS > n:
+        return False  
+    for i in range(n - Q_PTS + 1):
+        group = points[i : i + Q_PTS]
+        quadrants = set(get_quadrant(x, y) for x, y in group)
+        if len(quadrants) > QUADS:
             return True
     return False
 

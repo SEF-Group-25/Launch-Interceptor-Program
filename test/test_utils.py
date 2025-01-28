@@ -1,6 +1,6 @@
 import pytest
 import math
-from src.utils import checkIfColinear, get_triangle_area, get_triangle_sides, calc_angle, get_length
+from src.utils import check_if_colinear, get_triangle_area, get_triangle_sides, calc_angle, get_length, get_quadrant
 
 def test_get_length():
 
@@ -8,9 +8,6 @@ def test_get_length():
     assert get_length((2, 1), (3, 4)) == math.sqrt(10)
     assert get_length((-1, -2), (-7, 3)) == math.sqrt(61)
     assert get_length((0, 0), (1, 1)) == math.sqrt(2)
-    
-
-
 
 @pytest.mark.parametrize(
     "p1, p2, p3, epsilon, expected_result",
@@ -31,7 +28,7 @@ def test_get_length():
 )
 
 def test_checkIfColinear(p1, p2, p3, epsilon, expected_result):
-    result = checkIfColinear(p1, p2, p3, epsilon)
+    result = check_if_colinear(p1, p2, p3, epsilon)
     assert result == expected_result
 
 @pytest.mark.parametrize(
@@ -96,3 +93,22 @@ def test_calc_angle():
 
     # collinear points
     assert math.isclose(calc_angle((2, 0), (1, 0), (0, 0)), math.pi, rel_tol=1e-9)
+
+@pytest.mark.parametrize(
+    "x, y, expected_quadrant",
+    [
+        # Basic quadrants
+        (1,  1, 1),   # Quadrant I
+        (-1, 1, 2),    # Quadrant II
+        (-2, -3, 3),   # Quadrant III
+        ( 2, -5, 4),   # Quadrant IV
+
+        (0,  0, 1),
+        (0,  5, 1),
+        (0, -2, 3),
+        (3,  0, 1),
+        (-4, 0, 2),
+    ]
+)
+def test_get_quadrant(x, y, expected_quadrant):
+    assert get_quadrant(x, y) == expected_quadrant
