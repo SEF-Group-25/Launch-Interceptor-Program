@@ -1,6 +1,12 @@
 import math
 import numpy as np
 
+def get_length(p1, p2):
+    x = p1[0] - p2[0]
+    y = p1[1] - p2[1]
+    return math.sqrt(x ** 2 + y ** 2)
+
+
 def checkIfColinear(p1, p2, p3, epsilon=1e-6):
     """
     Check if three points are collinear.

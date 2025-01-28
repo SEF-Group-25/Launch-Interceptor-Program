@@ -1,6 +1,16 @@
 import pytest
 import math
-from src.utils import checkIfColinear, get_triangle_area, get_triangle_sides, calc_angle
+from src.utils import checkIfColinear, get_triangle_area, get_triangle_sides, calc_angle, get_length
+
+def test_get_length():
+
+    # Normal cases
+    assert get_length((2, 1), (3, 4)) == math.sqrt(10)
+    assert get_length((-1, -2), (-7, 3)) == math.sqrt(61)
+    assert get_length((0, 0), (1, 1)) == math.sqrt(2)
+    
+
+
 
 @pytest.mark.parametrize(
     "p1, p2, p3, epsilon, expected_result",
