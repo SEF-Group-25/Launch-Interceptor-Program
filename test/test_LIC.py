@@ -1,12 +1,29 @@
 import pytest
 from src.LIC import (
-    
+    LIC0,
     LIC1,
     LIC2, 
     LIC9,
     LIC5,
 
 )
+
+@pytest.mark.parametrize(
+    "POINTS, LENGTH1, expected_result",
+    [
+        # Positive case: There exists a 2 consecutive points that are further apart than LENGTH1.
+        ([(0, 0), (1, 1), (2, 2), (3, 0)], 1.0, True),
+        #negative case: All points are within LENGTH1
+        ([(0, 0), (1, 1), (2, 2), (3, 0)], 4.0, False),
+        #negative case: negative length
+        ([(0, 0), (1, 1), (2, 2), (3, 0)], -1.0, False),
+        
+    ]
+)
+
+def test_LIC0(POINTS, LENGTH1, expected_result):
+    result = LIC0(LENGTH1, POINTS )
+    assert result == expected_result
 
 @pytest.mark.parametrize(
     "POINTS, RADIUS1, expected_result",

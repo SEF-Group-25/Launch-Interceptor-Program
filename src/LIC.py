@@ -1,5 +1,19 @@
 import numpy as np
-from src.utils import checkIfColinear, get_triangle_sides, get_triangle_area, calc_angle
+from src.utils import checkIfColinear, get_triangle_sides, get_triangle_area, calc_angle, get_length
+
+def LIC0(length1, points):
+    """
+    Return true if there exists two consecutive points that 
+    that are a distance greater than `length1` apart. otherwise False.
+    """
+    #make sure length1 is positive
+    if length1 < 0:
+        return False
+    for i in range(len(points)-1):
+        point_length = get_length(points[i], points[i+1])
+        if point_length > length1:
+            return True
+    return False
 
 def LIC1(points, radius1):
     """
