@@ -6,6 +6,7 @@ from src.LIC import (
     LIC3,
     LIC9,
     LIC5,
+    LIC12,
 
 )
 
@@ -136,4 +137,29 @@ def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
 )
 def test_LIC5(POINTS, expected_result):
     result = LIC5(POINTS)
+    assert result == expected_result
+    
+#create testcases for LIC12 params: length1, length2, k_pts, points
+@pytest.mark.parametrize(
+    "length1, length2, k_pts, points, expected_result",
+    [
+        # Positive case: distance between all pairs separeted  by K_PTS are larger than length1 and less than length2
+        (1, 80, 1, [(0, 0), (1, 1), (2, 2), (3, 0)], True),
+
+        # Negative case: distance between all pairs separeted  by K_PTS are more than or equal to length2
+        (1, 2, 1, [(0, 0), (1, 1), (2, 2), (3, 0)], False),
+
+        # Negative case: Negative length
+        (-1, 80, 1, [(0, 0), (1, 1), (2, 2), (3, 0)], False),
+
+        # Negative case: Negative length
+        (1, -80, 1, [(0, 0), (1, 1), (2, 2), (3, 0)], False),
+        
+        # Negative case: Negative k_pts
+        (1, 80, -1, [(0, 0), (1, 1), (2, 2), (3, 0)], False),
+    ]
+)
+
+def test_LIC12(length1, length2, k_pts, points, expected_result):
+    result = LIC12(length1, length2, k_pts, points)
     assert result == expected_result
