@@ -2,7 +2,8 @@ import pytest
 from src.LIC import (
     LIC0,
     LIC1,
-    LIC2, 
+    LIC2,
+    LIC3,
     LIC9,
     LIC5,
 
@@ -67,6 +68,29 @@ def test_LIC1(POINTS, RADIUS1, expected_result):
 )
 def test_LIC2(POINTS, EPSILON, expected_result):
     result = LIC2(POINTS, EPSILON)
+    assert result == expected_result
+    
+    #create testcases for LIC3
+@pytest.mark.parametrize(
+    "AREA1, POINTS, expected_result",
+    [
+        # Positive case: Right triangle
+        (1.0, [(0, 0), (4, 0), (0, 3)], True),
+
+        # Negative case: All triangles have area less than AREA1.
+        (10.0, [(0, 0), (1, 1), (2, 2), (3, 0)], False),
+
+        # Negative case: area is 0.
+        (1.0, [(0, 0), (1, 1), (2, 2), (3, 3)], False),
+
+        
+        # Negative case: Negative area
+        (-1.0, [(0, 0), (4, 0), (0, 3)], False),
+    ]
+)
+
+def test_LIC3(AREA1, POINTS, expected_result):
+    result = LIC3(AREA1, POINTS)
     assert result == expected_result
 
 @pytest.mark.parametrize(
