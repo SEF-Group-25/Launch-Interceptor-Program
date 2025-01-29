@@ -155,3 +155,28 @@ def LIC5(POINTS):
             return True
     
     return False
+
+
+def LIC12(length1, length2, k_pts, points):
+ 
+
+    if 3 > len(points) or length2 <0 or length1 < 0 or k_pts < 1:
+        return False
+    """
+    
+    Check if there exists a set of pair of points pts separated by exactly k_pts consecutive points such that:
+    Req 1: if the distance between any pair is greater than length1
+    Req 2: if the distance between any pair is less than length2
+    
+    """
+    req1 = False
+    req2 = False
+    for i in range(len(points)-k_pts-1) :
+        distance = get_length(points[i], points[i+k_pts+1])
+        if distance > length1:
+            req1 = True
+        if distance < length2:
+            req2 = True
+        if req1 and req2:
+            return True
+    return False
