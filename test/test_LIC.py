@@ -10,7 +10,8 @@ from src.LIC import (
     LIC8,
     LIC9,
     LIC11,
-    LIC12
+    LIC12,
+    LIC14
 
 )
 
@@ -247,4 +248,24 @@ def test_LIC12(length1, length2, k_pts, points, expected_result):
     result = LIC12(length1, length2, k_pts, points)
     assert result == expected_result
 
+@pytest.mark.parametrize(
+    "POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result",
+    [
+        # Positive case, there exist three data points, separated by exactly E_PTS and F_PTS intervening points, 
+        # that form a triangle with an area greater than AREA1. There also exists such three points, 
+        # form a triangle with an area less than AREA2.
+        ([(0, 0), (0.1, 0.2), (3, 4), (4, 0), (1, 2), (0, 3)], 2, 1, 5, 6.05, True),
 
+        # Negative case, there doesn't exists such points satisfiying area requirements.
+        ([(1, 1), (0, 0), (2.5, 2.5), (3, 1), (10, 10.1), (2, 5)], 1, 1, 1, 0, False),
+
+        # Negative case, parameter is not valid.
+        ([(0, 0), (0.1, 0.2), (3, 4), (4, 0), (1, 2), (0, 3)], 2, 2, 5, 6.05, False),
+
+        # Negative case, AREA2 is not valid.
+        ([(0, 0), (0.1, 0.2), (3, 4), (4, 0), (1, 2), (0, 3)], 2, 2, 5, -1, False),
+    ]
+)
+def test_LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result):
+    result = LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2)
+    assert result == expected_result
