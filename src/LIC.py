@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from src.utils import check_if_colinear, get_triangle_sides, get_triangle_area, calc_angle, get_length, get_quadrant
 
@@ -170,6 +171,28 @@ def LIC8(POINTS, A_PTS, B_PTS, RADIUS1):
             circumradius = (a * b * c) / (4.0 * area)
             if circumradius > RADIUS1:
                 return True
+    
+    return False
+
+def LIC7(points, K_PTS, LENGTH1):
+    """
+    Checks if there exists at least one pair of data points (p_i, p_j) 
+    such that:
+      - j = i + K_PTS + 1  (i.e., exactly K_PTS points in between)
+      - The distance between points[i] and points[j] > LENGTH1
+    The condition is false if len(points) < 3.
+    """
+    n = len(points)
+    if n < 3:
+        return False
+    
+    for i in range(n - (K_PTS + 1)):
+        j = i + K_PTS + 1
+        (x1, y1) = points[i]
+        (x2, y2) = points[j]
+        dist = math.dist((x1, y1), (x2, y2))
+        if dist > LENGTH1:
+            return True
     
     return False
 
