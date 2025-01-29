@@ -10,6 +10,7 @@ from src.LIC import (
     LIC6,
     LIC8,
     LIC9,
+    LIC10,
     LIC11,
     LIC12,
     LIC14
@@ -297,3 +298,27 @@ def test_LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result):
 def test_LIC7(points, K_PTS, LENGTH1, expected):
     result = LIC7(points, K_PTS, LENGTH1)
     assert result == expected
+
+@pytest.mark.parametrize(
+    "POINTS, E_PTS, F_PTS, AREA1, expected_result",
+    [
+        # Negative case: Fewer than 5 points 
+        ([(0,0), (1,0), (2,0), (3,0)], 1, 1, 1.0, False),
+
+        # Positive case: Exactly 5 points, forms a large triangle
+        ([(0,0), (10,10), (10,0), (5,5), (0,10)], 1, 1, 2.0, True),
+
+        # Negative case: Multiple points, but no triple has area > 10.0
+        ([(0,0), (1,0), (2,0), (3,0), (4,0), (5,0)], 1, 1, 10.0, False),
+
+        # Positive case: At least one triple is large enough (area > 5.0)
+        ([(0,0), (1,1), (2,6), (3,3), (0,10), (5,5)], 1, 1, 5.0, True),
+
+        # Negative case: Valid spacing, but all triangles have area <= 10.0
+        ([(0,0), (1,1), (2,2), (3,3), (4,4), (5,5)], 2, 1, 10.0, False),
+    ]
+)
+    
+def test_LIC10(POINTS, E_PTS, F_PTS, AREA1, expected_result):
+    result = LIC10(POINTS, E_PTS, F_PTS, AREA1)
+    assert result == expected_result
