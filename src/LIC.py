@@ -196,6 +196,32 @@ def LIC7(points, K_PTS, LENGTH1):
     
     return False
 
+def LIC10(points, E_PTS, F_PTS, AREA1):
+    """
+    Returns True if there exists three points P_i, P_j, P_k in 'points'
+    (with i < j < k) such that:
+      - j - i - 1 == E_PTS  (exactly E_PTS points between P_i and P_j)
+      - k - j - 1 == F_PTS  (exactly F_PTS points between P_j and P_k)
+      - The area of the triangle (P_i, P_j, P_k) > AREA1
+    The condition is false if len(points) < 5.
+    """
+    n = len(points)
+    if n < 5:
+        return False
+
+    for i in range(n):
+        j = i + E_PTS + 1
+        if j >= n:
+            break
+        k = j + F_PTS + 1
+        while k < n:
+            area = get_triangle_area(points[i], points[j], points[k])
+            if area > AREA1:
+                return True
+            k += 1
+
+    return False
+
 # Write a function to check if there exists a set of
 # three points separated by C_PTS and D_PTS that form 
 # an angle smaller than PI - EPSILON or greater than PI + EPSILON
