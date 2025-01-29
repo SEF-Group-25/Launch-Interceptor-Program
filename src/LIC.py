@@ -192,6 +192,26 @@ def LIC9(POINTS, EPSILON, C_PTS, D_PTS):
             return True
     return False
 
+def LIC11(POINTS, G_PTS):
+    """
+    Check if there exists a set of two points separated by 
+    G_PTS consecutive points such that X[j] - X[i] < 0 (i < j).
+    """
+
+    # boundary check
+    if G_PTS < 1 or G_PTS > len(POINTS) - 2:
+        return False
+    
+    for i in range(len(POINTS) - G_PTS - 1):
+        p1 = POINTS[i]
+        p2 = POINTS[i + G_PTS + 1]
+
+        if p2[0] - p1[0] < 0:
+            return True
+    
+    return False
+
+
 def LIC12(length1, length2, k_pts, points):
  
 
