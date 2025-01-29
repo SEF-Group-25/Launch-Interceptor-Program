@@ -25,8 +25,12 @@ def decide():
     # Calculate FUV
     FUV = calculate_fuv(FUV, PUM)
 
+    # Determines launch status.
+    decision = determine_launch(FUV)
+
     # Prints "YES" or "NO" to standard output.
-    determine_launch(FUV)
+    print(decision)
+
 
 
 def calculate_pum(PUM, LCM, CMV):
@@ -57,9 +61,9 @@ def calculate_fuv(FUV, PUM):
 
 def determine_launch(FUV):
     if all(FUV):
-        print("YES")
+        return "YES"
     else:
-        print("NO")
+        return "NO"
 
 
 if __name__ == '__main__':
