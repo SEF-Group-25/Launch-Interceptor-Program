@@ -91,6 +91,18 @@ def LIC4(points, Q_PTS, QUADS):
             return True
     return False
 
+def LIC5(POINTS):
+    """
+    Check if there exists a set of two consecutive points 
+    (X[i], Y[i]) and (X[j], Y[j]) such that X[j] - X[i] < 0
+    """
+
+    for i in range(len(POINTS) - 1):
+        if (POINTS[i+1][0] - POINTS[i][0] < 0):
+            return True
+    
+    return False
+
 def LIC6(N_PTS, POINTS, DIST):
 
     if DIST < 0: 
@@ -125,6 +137,42 @@ def LIC6(N_PTS, POINTS, DIST):
     return False
 
 
+def LIC8(POINTS, A_PTS, B_PTS, RADIUS1):
+    """
+    Check if there exists a set of three points separated by 
+    exactly A_PTS and B_PTS consecutive points, respectively, 
+    that cannot all fit within a circle of radius RADIUS1. 
+    """
+
+    # boundary check
+    if A_PTS < 1 or B_PTS < 1 or len(POINTS) < 5:
+        return False
+    if A_PTS + B_PTS > len(POINTS) - 3:
+        return False
+    if RADIUS1 < 0:
+        return False
+    
+    for i in range(len(POINTS) - A_PTS - B_PTS - 2):
+        p1 = POINTS[i]
+        p2 = POINTS[i + A_PTS + 1]
+        p3 = POINTS[i + A_PTS + B_PTS + 2]
+
+        if check_if_colinear(p1, p2, p3):
+            a, b, c = get_triangle_sides(p1, p2, p3)
+            diameter = np.max([a, b, c])  
+
+            if diameter / 2.0 > RADIUS1:
+                return True
+        else:
+            area = get_triangle_area(p1, p2, p3)
+            a, b, c = get_triangle_sides(p1, p2, p3)
+
+            circumradius = (a * b * c) / (4.0 * area)
+            if circumradius > RADIUS1:
+                return True
+    
+    return False
+
 # Write a function to check if there exists a set of
 # three points separated by C_PTS and D_PTS that form 
 # an angle smaller than PI - EPSILON or greater than PI + EPSILON
@@ -143,19 +191,6 @@ def LIC9(POINTS, EPSILON, C_PTS, D_PTS):
         if angle < (PI - EPSILON) or angle > (PI + EPSILON):
             return True
     return False
-
-def LIC5(POINTS):
-    """
-    Check if there exists a set of two consecutive points 
-    (X[i], Y[i]) and (X[j], Y[j]) such that X[j] - X[i] < 0
-    """
-
-    for i in range(len(POINTS) - 1):
-        if (POINTS[i+1][0] - POINTS[i][0] < 0):
-            return True
-    
-    return False
-
 
 def LIC12(length1, length2, k_pts, points):
  
