@@ -6,7 +6,8 @@ from src.LIC import (
     LIC3,
     LIC4,
     LIC5,
-    LIC9
+    LIC9,
+    LIC6
 
 )
 
@@ -136,6 +137,34 @@ def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
 
 def test_LIC5(POINTS, expected_result):
     result = LIC5(POINTS)
+    assert result == expected_result
+    
+#test LIC6
+@pytest.mark.parametrize(
+    "N_PTS, POINTS, DIST, expected_result",
+    [
+        # Positive case: straight line with one point 3 away
+        (3, [(0, 0), (0, 3), (3, 0)], 2, True),
+
+        # Negative case: straight line with one point less than 10 away
+        (3, [(0, 0), (0, 9), (2, 0)], 10, False),
+
+        # Negative case: N_PTS < 3
+        (2, [(0, 0), (0, 3), (3, 0)], 1, False),
+
+        # Negative case: Negative distance
+        (3, [(0, 0), (0, 3), (3, 0)], -1, False),
+        
+        #Positive case: first and last point are the same
+        (3, [(0, 0), (0, 3), (0, 0)], 2, True),
+        
+        #Negative case: first and last point are the same
+        (3, [(0, 0), (0, 3), (0, 0)], 10, False),
+    ]
+)
+
+def test_LIC6(N_PTS, POINTS, DIST, expected_result):
+    result = LIC6(N_PTS, POINTS, DIST)
     assert result == expected_result
 
 @pytest.mark.parametrize(

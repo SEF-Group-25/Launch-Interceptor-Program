@@ -91,6 +91,40 @@ def LIC4(points, Q_PTS, QUADS):
             return True
     return False
 
+def LIC6(N_PTS, POINTS, DIST):
+
+    if DIST < 0: 
+        return False
+    if N_PTS < 3 or N_PTS > len(POINTS):
+        return False
+    
+    for i in range(len(POINTS) - N_PTS + 1):
+        
+        #If the first and last point are the same, compare all points between to that point
+        if POINTS[i] == POINTS[i + N_PTS-1]:
+            subset = POINTS[i  :  i + N_PTS-1]
+            for j in range(1, N_PTS - 1):
+                distance = get_length(subset[j], subset[0])
+                if distance > DIST:
+                    return True
+        else:
+            x1, y1 = POINTS[i]
+            x2, y2 = POINTS[i + N_PTS-1]
+            a = y2 - y1
+            b = x1 - x2
+            c = x2 * y1 - x1 * y2
+            # Formula for calculating closest distance between a point and a line 
+            # abs(ax0 + by0 + c) / sqrt(a^2 + b^2)
+            #https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+            for j in range(1, N_PTS - 1):
+                px, py = POINTS[i + j]
+                distance = abs(a * px - b * py +c) / (a ** 2 + b ** 2)**0.5
+
+                if distance > DIST:
+                    return True
+    return False
+
+
 # Write a function to check if there exists a set of
 # three points separated by C_PTS and D_PTS that form 
 # an angle smaller than PI - EPSILON or greater than PI + EPSILON
