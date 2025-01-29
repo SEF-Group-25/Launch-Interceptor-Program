@@ -235,3 +235,38 @@ def LIC12(length1, length2, k_pts, points):
         if req1 and req2:
             return True
     return False
+
+def LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2):
+    """
+    Check if there exist three data points, separated by exactly E PTS and F PTS intervening points, 
+    that form a triangle with an area greater than AREA1. There also exists sych three points, 
+    form a triangle with an area less than AREA2.
+    """
+
+    # boundary check
+    if AREA2 < 0 or len(POINTS) < 5:
+        return False
+    if E_PTS < 1 or F_PTS < 1:
+        return False
+    
+    # bool flags
+    greater_than_area1 = False
+    less_than_area2 = False
+
+    for i in range(len(POINTS) - E_PTS - F_PTS - 2):
+        p1 = POINTS[i]
+        p2 = POINTS[i + E_PTS + 1]
+        p3 = POINTS[i + E_PTS + F_PTS + 2]
+
+        area = get_triangle_area(p1, p2, p3)
+
+        if area > AREA1:
+            greater_than_area1 = True
+        if area < AREA2:
+            less_than_area2 = True
+        
+        if greater_than_area1 and less_than_area2:
+            return True
+    
+    return False
+
