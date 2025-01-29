@@ -9,6 +9,7 @@ from src.LIC import (
     LIC6,
     LIC8,
     LIC9,
+    LIC11,
     LIC12
 
 )
@@ -203,6 +204,24 @@ def test_LIC8(POINTS, A_PTS, B_PTS, RADIUS1, expected_result):
 )
 def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
     result = LIC9(POINTS, EPSILON, C_PTS, D_PTS)
+    assert result == expected_result
+
+@pytest.mark.parametrize(
+    "POINTS, G_PTS, expected_result",
+    [
+        # Positive case, There exists a set of two points 
+        # separated by G_PTS consecutive points such that X[j] - X[i] < 0.
+        ([(0, 1), (2.5, 6.6), (1.1, 1), (-0.1, 3)], 2, True),
+
+        # Negative case, There doesn't exist such two points.
+        ([(0, 1), (4.5, 4.5), (1, 2), (5, 5)], 1, False),
+
+        # Negative case, parameter is not valid.
+        ([(0, 1), (2.5, 6.6), (1.1, 1), (-0.1, 3)], 3, False),
+    ]
+)
+def test_LIC11(POINTS, G_PTS, expected_result):
+    result = LIC11(POINTS, G_PTS)
     assert result == expected_result
 
 @pytest.mark.parametrize(
