@@ -6,6 +6,7 @@ from src.LIC import (
     LIC3,
     LIC4,
     LIC5,
+    LIC7,
     LIC6,
     LIC8,
     LIC9,
@@ -269,3 +270,30 @@ def test_LIC12(length1, length2, k_pts, points, expected_result):
 def test_LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result):
     result = LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2)
     assert result == expected_result
+
+@pytest.mark.parametrize(
+    "points, K_PTS, LENGTH1, expected",
+    [
+        # Negative case: fewer than 3 points
+        ([(0,0), (1,1)], 1, 1.0, False),
+
+        # Positice case: Exactly 3 points
+        ([(0,0), (1,1), (2,2)], 1, 2.0, True),
+
+        # Negative case: 4 points, multiple possible pairs, but none exceed LENGTH1=4
+        ([(0,0), (1,1), (2,2), (3,3)], 1, 4.0, False),
+
+        # Positive case: 4 points, check a bigger gap 
+        ([(0,0), (1,1), (2,2), (3,3)], 2, 4.0, True),
+
+        # Positive case: Negative coordinates, multiple pairs. 
+        ([(-1, -1), (0,0), (5,5), (6,6)], 1, 3.0, True),
+
+        # Negative case: K_PTS is out of valid range
+        ([(0,0), (1,1), (2,2), (3,3)], 10, 2.0, False),
+    ]
+)
+
+def test_LIC7(points, K_PTS, LENGTH1, expected):
+    result = LIC7(points, K_PTS, LENGTH1)
+    assert result == expected
