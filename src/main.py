@@ -33,17 +33,17 @@ LCM = [
 
 PUV = [True, False, True, False, True, True, False, True, False, True, True, False, True, False, True]
 
+PI = 3.1415926535
 
 PARAMETERS = {
     'LENGTH1': 10,
     'RADIUS1': 8,
-    'PI': 3.141592653589793,
     'EPSILON': 10,
     'AREA1': 8,
     'Q_PTS': 0,
     'QUADS': 5,
-    'N_PTS': 7,
     'DIST': 1,
+    'N_PTS': 7,
     'K_PTS': 4,
     'A_PTS': 7,
     'B_PTS': 0,
@@ -59,7 +59,13 @@ PARAMETERS = {
 
 
 
-def decide():
+def decide(
+        NUMPOINTS,
+        POINTS,
+        PARAMETERS,
+        LCM,
+        PUV
+):
     # Setup
     PARAMETERS["POINTS"] = POINTS
     PARAMETERS["NUMPOINTS"] = NUMPOINTS
@@ -85,7 +91,7 @@ def decide():
     PUM = calculate_pum(LCM, CMV)
 
     # Calculate FUV
-    FUV = calculate_fuv(PUM)
+    FUV = calculate_fuv(PUM, PUV)
 
     # Determines launch status.
     decision = determine_launch(FUV)
@@ -112,7 +118,7 @@ def calculate_pum(LCM, CMV):
     return PUM
 
 
-def calculate_fuv(PUM):
+def calculate_fuv(PUM, PUV):
     FUV = [False] * 15
     for i in range(len(FUV)):
         if not PUV[i]:
@@ -131,4 +137,4 @@ def determine_launch(FUV):
 
 
 if __name__ == '__main__':
-    decide()
+    decide(NUMPOINTS, POINTS, PARAMETERS, LCM, PUV)
