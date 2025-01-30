@@ -129,7 +129,11 @@ def test_LIC4(points, Q_PTS, QUADS, expected_result):
         ([(0, 0), (2.5, 3.6), (2.4, 8.09)], True),
 
         # Negative case. LIC5 is false if there doesn't exist X[j] - X[i] < 0, i = j - 1.
-        ([(1.3, 2.5), (3.4, 5.5), (10, 0), (100.1, 3.3)], False)
+        ([(1.3, 2.5), (3.4, 5.5), (10, 0), (100.1, 3.3)], False),
+
+        # Negative edge case. LIC5 is false if there doesn't exist X[j] - X[i] < 0, i = j - 1.
+        # test X[j] == X[i]
+        ([(0.0001, 0), (0.0001, 2), (1, -1)], False)
     ]
 )
 def test_LIC5(POINTS, expected_result):
