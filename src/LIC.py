@@ -2,41 +2,41 @@ import math
 import numpy as np
 from src.utils import check_if_colinear, get_triangle_sides, get_triangle_area, calc_angle, get_length, get_quadrant, fits_in_circle
 
-def LIC0(length1, points):
+def LIC0(LENGTH1, POINTS):
     """
     Return true if there exists two consecutive points that 
     that are a distance greater than `length1` apart. otherwise False.
     """
     #make sure length1 is positive
-    if length1 < 0:
+    if LENGTH1 < 0:
         return False
-    for i in range(len(points)-1):
-        point_length = get_length(points[i], points[i+1])
-        if point_length > length1:
+    for i in range(len(POINTS)-1):
+        point_length = get_length(POINTS[i], POINTS[i+1])
+        if point_length > LENGTH1:
             return True
     return False
 
-def LIC1(points, radius1):
+def LIC1(POINTS, RADIUS1):
     """
     Returns True if there exists a set of three consecutive points 
     that CANNOT fit in a circle of radius `radius1`. Otherwise False.
     """
-    n = len(points)
+    n = len(POINTS)
     for i in range(n - 2):
-        p1, p2, p3 = points[i], points[i+1], points[i+2]
+        p1, p2, p3 = POINTS[i], POINTS[i+1], POINTS[i+2]
 
         if check_if_colinear(p1, p2, p3):
             a, b, c = get_triangle_sides(p1, p2, p3)
             diameter = np.max([a, b, c])  
 
-            if diameter / 2.0 > radius1:
+            if diameter / 2.0 > RADIUS1:
                 return True
         else:
             area = get_triangle_area(p1, p2, p3)
             a, b, c = get_triangle_sides(p1, p2, p3)
 
             circumradius = (a * b * c) / (4.0 * area)
-            if circumradius > radius1:
+            if circumradius > RADIUS1:
                 return True 
 
     return False
@@ -77,16 +77,16 @@ def LIC3(AREA1, POINTS):
             return True
     return False
 
-def LIC4(points, Q_PTS, QUADS):
+def LIC4(POINTS, Q_PTS, QUADS):
     """
     Check if there exists a set of Q_PTS consecutive data points 
     that occupy more than QUADS distinct quadrants.
     """
-    n = len(points)
+    n = len(POINTS)
     if Q_PTS < 2 or Q_PTS > n:
         return False  
     for i in range(n - Q_PTS + 1):
-        group = points[i : i + Q_PTS]
+        group = POINTS[i : i + Q_PTS]
         quadrants = set(get_quadrant(x, y) for x, y in group)
         if len(quadrants) > QUADS:
             return True
@@ -174,7 +174,7 @@ def LIC8(POINTS, A_PTS, B_PTS, RADIUS1):
     
     return False
 
-def LIC7(points, K_PTS, LENGTH1):
+def LIC7(POINTS, K_PTS, LENGTH1):
     """
     Checks if there exists at least one pair of data points (p_i, p_j) 
     such that:
@@ -182,21 +182,21 @@ def LIC7(points, K_PTS, LENGTH1):
       - The distance between points[i] and points[j] > LENGTH1
     The condition is false if len(points) < 3.
     """
-    n = len(points)
+    n = len(POINTS)
     if n < 3:
         return False
     
     for i in range(n - (K_PTS + 1)):
         j = i + K_PTS + 1
-        (x1, y1) = points[i]
-        (x2, y2) = points[j]
+        (x1, y1) = POINTS[i]
+        (x2, y2) = POINTS[j]
         dist = math.dist((x1, y1), (x2, y2))
         if dist > LENGTH1:
             return True
     
     return False
 
-def LIC10(points, E_PTS, F_PTS, AREA1):
+def LIC10(POINTS, E_PTS, F_PTS, AREA1):
     """
     Returns True if there exists three points P_i, P_j, P_k in 'points'
     (with i < j < k) such that:
@@ -205,7 +205,7 @@ def LIC10(points, E_PTS, F_PTS, AREA1):
       - The area of the triangle (P_i, P_j, P_k) > AREA1
     The condition is false if len(points) < 5.
     """
-    n = len(points)
+    n = len(POINTS)
     if n < 5:
         return False
 
@@ -215,7 +215,7 @@ def LIC10(points, E_PTS, F_PTS, AREA1):
             break
         k = j + F_PTS + 1
         while k < n:
-            area = get_triangle_area(points[i], points[j], points[k])
+            area = get_triangle_area(POINTS[i], POINTS[j], POINTS[k])
             if area > AREA1:
                 return True
             k += 1
@@ -261,10 +261,10 @@ def LIC11(POINTS, G_PTS):
     return False
 
 
-def LIC12(length1, length2, k_pts, points):
+def LIC12(LENGTH1, LENGTH2, K_PTS, POINTS):
  
 
-    if 3 > len(points) or length2 <0 or length1 < 0 or k_pts < 1:
+    if 3 > len(POINTS) or LENGTH2 <0 or LENGTH1 < 0 or K_PTS < 1:
         return False
     """
     
@@ -275,11 +275,11 @@ def LIC12(length1, length2, k_pts, points):
     """
     req1 = False
     req2 = False
-    for i in range(len(points)-k_pts-1) :
-        distance = get_length(points[i], points[i+k_pts+1])
-        if distance > length1:
+    for i in range(len(POINTS)-K_PTS-1) :
+        distance = get_length(POINTS[i], POINTS[i+K_PTS+1])
+        if distance > LENGTH1:
             req1 = True
-        if distance < length2:
+        if distance < LENGTH2:
             req2 = True
         if req1 and req2:
             return True
