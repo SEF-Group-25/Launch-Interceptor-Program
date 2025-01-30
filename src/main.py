@@ -1,4 +1,4 @@
-from LIC import *
+from src.LIC import *
 import inspect
 
 NUMPOINTS = 50
@@ -65,8 +65,6 @@ def decide():
     PARAMETERS["NUMPOINTS"] = NUMPOINTS
     functions = [LIC0, LIC1, LIC2, LIC3, LIC4, LIC5, LIC6, LIC7, LIC8, LIC9, LIC10, LIC11, LIC12, LIC13, LIC14]
     CMV = [False] * 15
-    PUM = [[False] * 15 for _ in range(15)]
-    FUV = [False] * 15
 
     # Gather CMV
     for i in range(len(CMV)):
@@ -84,10 +82,10 @@ def decide():
             CMV[i] = True
 
     # Calculate PUM
-    PUM = calculate_pum(PUM, LCM, CMV)
+    PUM = calculate_pum(LCM, CMV)
 
     # Calculate FUV
-    FUV = calculate_fuv(FUV, PUM)
+    FUV = calculate_fuv(PUM)
 
     # Determines launch status.
     decision = determine_launch(FUV)
@@ -96,7 +94,8 @@ def decide():
     print(decision)
 
 
-def calculate_pum(PUM, LCM, CMV):
+def calculate_pum(LCM, CMV):
+    PUM = [[False] * 15 for _ in range(15)]
     for i in range(len(PUM)):
         for j in range(len(PUM[0])):
             if LCM[i][j] == "NOTUSED":
@@ -113,7 +112,8 @@ def calculate_pum(PUM, LCM, CMV):
     return PUM
 
 
-def calculate_fuv(FUV, PUM):
+def calculate_fuv(PUM):
+    FUV = [False] * 15
     for i in range(len(FUV)):
         if not PUV[i]:
             FUV[i] = True
@@ -124,7 +124,7 @@ def calculate_fuv(FUV, PUM):
 
 
 def determine_launch(FUV):
-    if all(FUV):
+    if all(FUV) and len(FUV) != 0:
         return "YES"
     else:
         return "NO"
