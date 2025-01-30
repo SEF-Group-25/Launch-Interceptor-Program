@@ -184,8 +184,31 @@ def test_determine_launch(FUV, expected_result):
     assert result == expected_result
 
 
-def test_decide(capsys):
-    decide()
+
+@pytest.mark.parametrize(
+    "case, expected_result",
+    [
+        (
+                "a",
+
+                "NO\n",
+        ),
+
+        (
+                "b",
+
+                "NO\n",
+        ),
+
+        (
+                "ab",
+
+                "NO\n",
+        ),
+    ]
+)
+def test_decide(capsys, case, expected_result):
+    decide(case)
     captured = capsys.readouterr()
 
-    assert captured.out == "NO\n"
+    assert captured.out == expected_result

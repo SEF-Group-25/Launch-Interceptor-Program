@@ -12,6 +12,7 @@ POINTS = [(24, 1), (41, 27), (50, 17), (27, 10), (17, 29), (24, 21), (3, 22), (1
  (15, 19), (24, 19)]
 
 
+
 LCM = [
     ["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED", "ANDD", "ANDD", "ORR", "ANDD", "NOTUSED", "ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"],
     ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED", "ANDD", "ANDD", "ORR", "ORR", "NOTUSED", "ANDD", "ANDD", "ORR", "ORR", "NOTUSED"],
@@ -32,6 +33,7 @@ LCM = [
 
 
 PUV = [True, False, True, False, True, True, False, True, False, True, True, False, True, False, True]
+
 
 
 PARAMETERS = {
@@ -59,10 +61,18 @@ PARAMETERS = {
 
 
 
-def decide():
+def decide(case):
     # Setup
-    PARAMETERS["POINTS"] = POINTS
-    PARAMETERS["NUMPOINTS"] = NUMPOINTS
+    if case == "a":
+        PARAMETERS["POINTS"] = [(0, 0), (1, 1)]
+        PARAMETERS["NUMPOINTS"] = 2
+    elif case == "b":
+        PARAMETERS["POINTS"] = [(0, 0), (1, 1), (10, 10)]
+        PARAMETERS["NUMPOINTS"] = 3
+    else:
+        PARAMETERS["POINTS"] = POINTS
+        PARAMETERS["NUMPOINTS"] = NUMPOINTS
+
     functions = [LIC0, LIC1, LIC2, LIC3, LIC4, LIC5, LIC6, LIC7, LIC8, LIC9, LIC10, LIC11, LIC12, LIC13, LIC14]
     CMV = [False] * 15
 
@@ -131,4 +141,4 @@ def determine_launch(FUV):
 
 
 if __name__ == '__main__':
-    decide()
+    decide("ad")
