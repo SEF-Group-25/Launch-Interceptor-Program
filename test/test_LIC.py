@@ -33,7 +33,11 @@ from src.LIC import (
 def test_LIC0(POINTS, LENGTH1, expected_result):
     result = LIC0(LENGTH1, POINTS )
     assert result == expected_result
-
+    #Type error test
+def test_LIC0_invalid_input():
+    with pytest.raises(TypeError):
+        LIC0(1.0, 123)
+        
 @pytest.mark.parametrize(
     "POINTS, RADIUS1, expected_result",
     [
@@ -77,7 +81,7 @@ def test_LIC2(POINTS, EPSILON, expected_result):
     result = LIC2(POINTS, EPSILON)
     assert result == expected_result
     
-#create testcases for LIC3
+#Test for LIC3
 @pytest.mark.parametrize(
     "AREA1, POINTS, expected_result",
     [
@@ -98,6 +102,10 @@ def test_LIC2(POINTS, EPSILON, expected_result):
 def test_LIC3(AREA1, POINTS, expected_result):
     result = LIC3(AREA1, POINTS)
     assert result == expected_result
+    #Type error test
+def test_LIC3_invalid_input():
+    with pytest.raises(TypeError):
+        LIC3(True, 123)
 
 @pytest.mark.parametrize(
     "points, Q_PTS, QUADS, expected_result",
@@ -166,6 +174,10 @@ def test_LIC5(POINTS, expected_result):
 def test_LIC6(N_PTS, POINTS, DIST, expected_result):
     result = LIC6(N_PTS, POINTS, DIST)
     assert result == expected_result
+    #Type error test
+def test_LIC6_invalid_input():
+    with pytest.raises(TypeError):
+        LIC6(3, True, 10)
 
 @pytest.mark.parametrize(
     "POINTS, A_PTS, B_PTS, RADIUS1, expected_result",
@@ -213,6 +225,10 @@ def test_LIC8(POINTS, A_PTS, B_PTS, RADIUS1, expected_result):
 def test_LIC9(POINTS, EPSILON, C_PTS, D_PTS, expected_result):
     result = LIC9(POINTS, EPSILON, C_PTS, D_PTS)
     assert result == expected_result
+#Type error test
+def test_LIC9_invalid_input():
+    with pytest.raises(TypeError):
+        LIC9(True, 0.1, 1, 1)
 
 @pytest.mark.parametrize(
     "POINTS, G_PTS, expected_result",
@@ -254,6 +270,10 @@ def test_LIC11(POINTS, G_PTS, expected_result):
 def test_LIC12(length1, length2, k_pts, points, expected_result):
     result = LIC12(length1, length2, k_pts, points)
     assert result == expected_result
+    #Type error test
+def test_LIC12_invalid_input():
+    with pytest.raises(TypeError):
+        LIC12(1, 80, 1, True)
 
 @pytest.mark.parametrize(
     "POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result",
