@@ -6,11 +6,14 @@ from src.LIC import (
     LIC3,
     LIC4,
     LIC5,
+    LIC7,
     LIC6,
     LIC8,
     LIC9,
+    LIC10,
     LIC11,
     LIC12,
+    LIC13,
     LIC14
 
 )
@@ -268,4 +271,80 @@ def test_LIC12(length1, length2, k_pts, points, expected_result):
 )
 def test_LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2, expected_result):
     result = LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2)
+    assert result == expected_result
+
+@pytest.mark.parametrize(
+    "points, K_PTS, LENGTH1, expected",
+    [
+        # Negative case: fewer than 3 points
+        ([(0,0), (1,1)], 1, 1.0, False),
+
+        # Positice case: Exactly 3 points
+        ([(0,0), (1,1), (2,2)], 1, 2.0, True),
+
+        # Negative case: 4 points, multiple possible pairs, but none exceed LENGTH1=4
+        ([(0,0), (1,1), (2,2), (3,3)], 1, 4.0, False),
+
+        # Positive case: 4 points, check a bigger gap 
+        ([(0,0), (1,1), (2,2), (3,3)], 2, 4.0, True),
+
+        # Positive case: Negative coordinates, multiple pairs. 
+        ([(-1, -1), (0,0), (5,5), (6,6)], 1, 3.0, True),
+
+        # Negative case: K_PTS is out of valid range
+        ([(0,0), (1,1), (2,2), (3,3)], 10, 2.0, False),
+    ]
+)
+
+def test_LIC7(points, K_PTS, LENGTH1, expected):
+    result = LIC7(points, K_PTS, LENGTH1)
+    assert result == expected
+
+@pytest.mark.parametrize(
+    "POINTS, E_PTS, F_PTS, AREA1, expected_result",
+    [
+        # Negative case: Fewer than 5 points 
+        ([(0,0), (1,0), (2,0), (3,0)], 1, 1, 1.0, False),
+
+        # Positive case: Exactly 5 points, forms a large triangle
+        ([(0,0), (10,10), (10,0), (5,5), (0,10)], 1, 1, 2.0, True),
+
+        # Negative case: Multiple points, but no triple has area > 10.0
+        ([(0,0), (1,0), (2,0), (3,0), (4,0), (5,0)], 1, 1, 10.0, False),
+
+        # Positive case: At least one triple is large enough (area > 5.0)
+        ([(0,0), (1,1), (2,6), (3,3), (0,10), (5,5)], 1, 1, 5.0, True),
+
+        # Negative case: Valid spacing, but all triangles have area <= 10.0
+        ([(0,0), (1,1), (2,2), (3,3), (4,4), (5,5)], 2, 1, 10.0, False),
+    ]
+)
+    
+def test_LIC10(POINTS, E_PTS, F_PTS, AREA1, expected_result):
+    result = LIC10(POINTS, E_PTS, F_PTS, AREA1)
+    assert result == expected_result
+
+@pytest.mark.parametrize(
+    "POINTS, A_PTS, B_PTS, RADIUS1, RADIUS2, expected_result",
+    [
+        # Negative case: Fewer than 5 points 
+        ([(0,0), (1,1), (2,2), (3,3)], 1, 1, 2.0, 5.0, False),
+
+        # Positive case: 
+        # There's a triple that doesn't fit in radius=2.0 
+        # AND there's a triple that fits in radius=5.0
+        ([(0,0), (1,1), (4,0), (2,2), (0,3)], 1, 1, 2.0, 5.0, True),
+
+        # Negative case: We find a triple that doesn't fit in RADIUS1 but 
+        # no triple fits in RADIUS2
+        ([(0,0), (4,4), (8,8), (12,12), (1,1)], 1, 1, 3.0, 2.5, False),
+
+        # Negative case: We find a triple that fits in RADIUS2, but 
+        # none that fails RADIUS1
+        ([(0,0), (1,1), (2,2), (3,3), (4,4)], 1, 1, 10.0, 10.0, False),
+    ]
+)
+
+def test_LIC13(POINTS, A_PTS, B_PTS, RADIUS1, RADIUS2, expected_result):
+    result = LIC13(POINTS, A_PTS, B_PTS, RADIUS1, RADIUS2)
     assert result == expected_result

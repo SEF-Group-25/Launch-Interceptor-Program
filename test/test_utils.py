@@ -1,6 +1,6 @@
 import pytest
 import math
-from src.utils import check_if_colinear, get_triangle_area, get_triangle_sides, calc_angle, get_length, get_quadrant
+from src.utils import check_if_colinear, get_triangle_area, get_triangle_sides, calc_angle, get_length, get_quadrant, fits_in_circle
 
 def test_get_length():
 
@@ -112,3 +112,28 @@ def test_calc_angle():
 )
 def test_get_quadrant(x, y, expected_quadrant):
     assert get_quadrant(x, y) == expected_quadrant
+
+@pytest.mark.parametrize(
+    "p1, p2, p3, radius, expected",
+    [
+        # Collinear: max distance is 4, half=2 => radius=2 fits exactly
+        ((0,0), (2,0), (4,0), 2.0, True),
+
+        # Collinear: max distance=4, half=2 => radius=1.9 => doesn't fit
+        ((0,0), (2,0), (4,0), 1.9, False),
+
+        # All points identical => trivially fits any radius >= 0
+        ((1,1), (1,1), (1,1), 0.0, True),
+
+        # Right triangle sides 3,4,5 => circumcircle radius=2.5
+        # With radius=3 => fits
+        ((0,0), (4,0), (0,3), 3.0, True),
+    ]
+)
+
+def test_fits_in_circle(p1, p2, p3, radius, expected):
+    if radius < 0:
+        result = False  
+    else:
+        result = fits_in_circle(p1, p2, p3, radius)
+    assert result == expected

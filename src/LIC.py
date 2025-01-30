@@ -1,5 +1,6 @@
+import math
 import numpy as np
-from src.utils import check_if_colinear, get_triangle_sides, get_triangle_area, calc_angle, get_length, get_quadrant
+from src.utils import check_if_colinear, get_triangle_sides, get_triangle_area, calc_angle, get_length, get_quadrant, fits_in_circle
 
 def LIC0(length1, points):
     """
@@ -173,6 +174,54 @@ def LIC8(POINTS, A_PTS, B_PTS, RADIUS1):
     
     return False
 
+def LIC7(points, K_PTS, LENGTH1):
+    """
+    Checks if there exists at least one pair of data points (p_i, p_j) 
+    such that:
+      - j = i + K_PTS + 1  (i.e., exactly K_PTS points in between)
+      - The distance between points[i] and points[j] > LENGTH1
+    The condition is false if len(points) < 3.
+    """
+    n = len(points)
+    if n < 3:
+        return False
+    
+    for i in range(n - (K_PTS + 1)):
+        j = i + K_PTS + 1
+        (x1, y1) = points[i]
+        (x2, y2) = points[j]
+        dist = math.dist((x1, y1), (x2, y2))
+        if dist > LENGTH1:
+            return True
+    
+    return False
+
+def LIC10(points, E_PTS, F_PTS, AREA1):
+    """
+    Returns True if there exists three points P_i, P_j, P_k in 'points'
+    (with i < j < k) such that:
+      - j - i - 1 == E_PTS  (exactly E_PTS points between P_i and P_j)
+      - k - j - 1 == F_PTS  (exactly F_PTS points between P_j and P_k)
+      - The area of the triangle (P_i, P_j, P_k) > AREA1
+    The condition is false if len(points) < 5.
+    """
+    n = len(points)
+    if n < 5:
+        return False
+
+    for i in range(n):
+        j = i + E_PTS + 1
+        if j >= n:
+            break
+        k = j + F_PTS + 1
+        while k < n:
+            area = get_triangle_area(points[i], points[j], points[k])
+            if area > AREA1:
+                return True
+            k += 1
+
+    return False
+
 # Write a function to check if there exists a set of
 # three points separated by C_PTS and D_PTS that form 
 # an angle smaller than PI - EPSILON or greater than PI + EPSILON
@@ -234,6 +283,44 @@ def LIC12(length1, length2, k_pts, points):
             req2 = True
         if req1 and req2:
             return True
+    return False
+
+def LIC13(POINTS, A_PTS, B_PTS, RADIUS1, RADIUS2):
+    """
+    Checks:
+    - If there's at least one triple (i, j, k) with exactly A_PTS between i and j,
+      and B_PTS between j and k, that does NOT fit in radius RADIUS1.
+    - AND there's at least one triple (possibly the same or different)
+      that DOES fit in radius RADIUS2.
+
+    Condition not met if len(POINTS) < 5.
+    """
+    n = len(POINTS)
+    if n < 5:
+        return False
+
+    no_fit = False
+    fit = False
+
+    for i in range(n):
+        j = i + A_PTS + 1
+        if j >= n:
+            break
+        k = j + B_PTS + 1
+        while k < n:
+            p1, p2, p3 = POINTS[i], POINTS[j], POINTS[k]
+
+            if not fits_in_circle(p1, p2, p3, RADIUS1):
+                no_fit = True
+
+            if fits_in_circle(p1, p2, p3, RADIUS2):
+                fit = True
+
+            if no_fit and fit:
+                return True
+
+            k += 1
+
     return False
 
 def LIC14(POINTS, E_PTS, F_PTS, AREA1, AREA2):
