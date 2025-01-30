@@ -66,6 +66,83 @@ def decide(
         LCM,
         PUV
 ):
+    # Type check
+    if not isinstance(NUMPOINTS, int) or not (2 <= NUMPOINTS <= 100):
+        print("Invalid NUMPOINTS")
+        return
+    
+    if not isinstance(POINTS, list) or len(POINTS) != NUMPOINTS:
+        print("Invalid POINTS")
+        return
+
+    for point in POINTS:
+        if not isinstance(point, tuple) or len(point) != 2:
+            print("Invalid point in POINTS")
+            return
+        x, y = point
+        if not (isinstance(x, (int, float)) and isinstance(y, (int, float))):
+            print("Invalid coordinates in POINTS")
+            return
+    
+    if not isinstance(PARAMETERS, dict):
+        print("Invalid PARAMETERS")
+        return
+    
+    required_params = {
+        "LENGTH1": (float, int),
+        "RADIUS1": (float, int),
+        "EPSILON": (float, int),
+        "AREA1": (float, int),
+        "QPTS": int,
+        "QUADS": int,
+        "DIST": (float, int),
+        "NPTS": int,
+        "KPTS": int,
+        "APTS": int,
+        "BPTS": int,
+        "CPTS": int,
+        "DPTS": int,
+        "EPTS": int,
+        "FPTS": int,
+        "GPTS": int,
+        "LENGTH2": (float, int),
+        "RADIUS2": (float, int),
+        "AREA2": (float, int),
+    }
+
+    for param, expected_type in required_params.items():
+        if param not in PARAMETERS:
+            print("Missing parameter: {param}")
+            return
+        
+        param_value = PARAMETERS[param]
+        if not isinstance(param_value, expected_type):
+            print("Invalid parameter: {param}")
+            return
+
+    if not isinstance(LCM, list) or len(LCM) != 15 or not all(len(row) == 15 for row in LCM):
+        print("Invalid LCM")
+        return
+    
+    valid_values_LCM = {"ANDD", "ORR", "NOTUSED"}
+    for i in range(15):
+        for j in range(15):
+            if LCM[i][j] not in valid_values_LCM:
+                print("Invalid element in LCM")
+                return
+            if LCM[i][j] != LCM[j][i]:
+                print("LCM not symmetric")
+                return
+    
+    if not isinstance(PUV, list) or len(PUV) != 15:
+        print("Invalid PUV")
+        return
+
+    for value in PUV:
+        if not isinstance(value, bool):
+            print("Invalid element in PUV")
+            return
+
     # Setup
     PARAMETERS["POINTS"] = POINTS
     PARAMETERS["NUMPOINTS"] = NUMPOINTS
