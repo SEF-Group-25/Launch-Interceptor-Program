@@ -114,14 +114,14 @@ def fits_in_circle(p1, p2, p3, radius):
       - get_triangle_area(p1, p2, p3)
     """
     if check_if_colinear(p1, p2, p3):
-        print("collinear")
+        #print("collinear")
         d12 = get_length(p1, p2)
         d23 = get_length(p2, p3)
         d13 = get_length(p1, p3)
         max_dist = max(d12, d23, d13)
         return (max_dist / 2.0) <= radius
     else:
-        print("not collinear")
+        #print("not collinear")
         a, b, c = get_triangle_sides(p1, p2, p3)
         area = get_triangle_area(p1, p2, p3)
 

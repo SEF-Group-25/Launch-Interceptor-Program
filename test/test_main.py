@@ -3,82 +3,189 @@ from src.main import *
 
 
 @pytest.mark.parametrize(
-    "PUM, LCM, CMV, expected_result",
-    # Example from the paper.
+    "LCM, CMV, expected_result",
     [
-        ([[False] * 5 for _ in range(5)],
+        # ALl true.
+        (
+         [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"] * 3,
+          ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED"] * 3,
+          ["ORR", "ORR", "ANDD", "ANDD", "NOTUSED"] * 3,
+          ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"] * 3,
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3] * 3,
 
-         [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"],
-          ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED"],
-          ["ORR", "ORR", "ANDD", "ANDD", "NOTUSED"],
-          ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"],
-          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"]],
+         [True, True, True, True, True] * 3,
 
-         [False, True, True, True, False],
-
-         [["*", False, True, False, True],
-          [False, "*", True, True, True],
-          [True, True, "*", True, True],
-          [False, True, True, "*", True],
-          [True, True, True, True, "*"]]
+         [["*", True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, "*", True, True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, "*", True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, "*", True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, "*", True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, "*", True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, "*", True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, "*", True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, "*", True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, "*", True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, "*", True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, "*", True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, "*", True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, True, "*", True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, True, True, "*"]]
          ),
 
-        ([[False] * 5 for _ in range(5)],
+        # NOTUSED works.
+        (
+         [["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3,
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3,
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3,
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3,
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3] * 3,
 
-         [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"],
-          ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED"],
-          ["ORR", "ORR", "ANDD", "ANDD", "NOTUSED"],
-          ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"],
-          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"]],
+         [False, False, False, False, False] * 3,
 
-         [False, True, True, True, False],
-
-         [["*", False, True, False, True],
-          [False, "*", True, True, True],
-          [True, True, "*", True, True],
-          [False, True, True, "*", True],
-          [True, True, True, True, "*"]]
-         )
+         [["*", True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, "*", True, True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, "*", True, True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, "*", True, True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, "*", True, True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, "*", True, True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, "*", True, True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, "*", True, True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, "*", True, True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, "*", True, True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, "*", True, True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, "*", True, True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, "*", True, True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, True, "*", True],
+          [True, True, True, True, True, True, True, True, True, True, True, True, True, True, "*"]]
+         ),
     ]
 )
-def test_calculate_pum(PUM, LCM, CMV, expected_result):
-    result = calculate_pum(PUM, LCM, CMV)
+def test_calculate_pum(LCM, CMV, expected_result):
+    result = calculate_pum(LCM, CMV)
     assert result == expected_result
 
 
 @pytest.mark.parametrize(
-    "FUV, PUM, expected_result",
-    # Example from the paper.
+    "LCM, CMV",
     [
+        # Test the too long PUM errors out.
         (
-         [False, False, False, False, False],
+                [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"] * 3,
+                 ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED"] * 3,
+                 ["ORR", "ORR", "ANDD", "ANDD", "NOTUSED"] * 3,
+                 ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"] * 3,
+                 ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"] * 3] * 3,
 
-         [["*", False, True, False, True],
-          [False, "*", True, True, True],
-          [True, True, "*", True, True],
-          [False, True, True, "*", True],
-          [True, True, True, True, "*"]],
-
-        [False, True, True, True, True]
-         ),
+                [False] * 12
+        ),
     ]
 )
-def test_calculate_fuv(FUV, PUM, expected_result):
-    result = calculate_fuv(FUV, PUM)
+def test_calculate_pum_index_error(LCM, CMV):
+    with pytest.raises(IndexError):
+        calculate_pum(LCM, CMV)
+
+
+@pytest.mark.parametrize(
+    "PUM, expected_result",
+    [
+        # All true.
+        (
+                [["*", True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+                 [True, "*", True, True, True, True, True, True, True, True, True, True, True, True, True],
+                 [True, True, "*", True, True, True, True, True, True, True, True, True, True, True, True],
+                 [True, True, True, "*", True, True, True, True, True, True, True, True, True, True, True],
+                 [True, True, True, True, "*", True, True, True, True, True, True, True, True, True, True],
+                 [True, True, True, True, True, "*", True, True, True, True, True, True, True, True, True],
+                 [True, True, True, True, True, True, "*", True, True, True, True, True, True, True, True],
+                 [True, True, True, True, True, True, True, "*", True, True, True, True, True, True, True],
+                 [True, True, True, True, True, True, True, True, "*", True, True, True, True, True, True],
+                 [True, True, True, True, True, True, True, True, True, "*", True, True, True, True, True],
+                 [True, True, True, True, True, True, True, True, True, True, "*", True, True, True, True],
+                 [True, True, True, True, True, True, True, True, True, True, True, "*", True, True, True],
+                 [True, True, True, True, True, True, True, True, True, True, True, True, "*", True, True],
+                 [True, True, True, True, True, True, True, True, True, True, True, True, True, "*", True],
+                 [True, True, True, True, True, True, True, True, True, True, True, True, True, True, "*"]],
+
+                [True, True, True, True, True] * 3
+        ),
+
+        # All false leads to some true due to PUV.
+        (
+        [
+        ["*", False, False, False, False, False, False, False, False, False, False, False, False, False, False],
+        [False, "*", False, False, False, False, False, False, False, False, False, False, False, False, False],
+        [False, False, "*", False, False, False, False, False, False, False, False, False, False, False, False],
+        [False, False, False, "*", False, False, False, False, False, False, False, False, False, False, False],
+        [False, False, False, False, "*", False, False, False, False, False, False, False, False, False, False],
+        [False, False, False, False, False, "*", False, False, False, False, False, False, False, False, False],
+        [False, False, False, False, False, False, "*", False, False, False, False, False, False, False, False],
+        [False, False, False, False, False, False, False, "*", False, False, False, False, False, False, False],
+        [False, False, False, False, False, False, False, False, "*", False, False, False, False, False, False],
+        [False, False, False, False, False, False, False, False, False, "*", False, False, False, False, False],
+        [False, False, False, False, False, False, False, False, False, False, "*", False, False, False, False],
+        [False, False, False, False, False, False, False, False, False, False, False, "*", False, False, False],
+        [False, False, False, False, False, False, False, False, False, False, False, False, "*", False, False],
+        [False, False, False, False, False, False, False, False, False, False, False, False, False, "*", False],
+        [False, False, False, False, False, False, False, False, False, False, False, False, False, False, "*"]
+        ],
+
+                [False, True, False, True, False] * 3
+        ),
+    ]
+)
+def test_calculate_fuv(PUM, expected_result):
+    result = calculate_fuv(PUM)
     assert result == expected_result
+
+
+@pytest.mark.parametrize(
+    "PUM",
+    [
+        # Test the too long PUM errors out.
+        (
+                [["*", True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, "toolong"]],
+
+        ),
+    ]
+)
+def test_calculate_fuv_index_error(PUM):
+    with pytest.raises(IndexError):
+        calculate_fuv(PUM)
+
 
 
 @pytest.mark.parametrize(
     "FUV, expected_result",
-    # Example from the paper.
     [
+        # Failing example from the paper.
         (
-         [False, True, True, True, True],
+                [False, True, True, True, True] * 3,
 
-         "NO",
-         ),
+                "NO",
+        ),
+
+        # Passing test.
+        (
+                [True, True, True, True, True] * 3,
+
+                "YES",
+        ),
+
+        # Empty array.
+        (
+                [],
+
+                "NO",
+        ),
     ]
 )
 def test_determine_launch(FUV, expected_result):
     result = determine_launch(FUV)
     assert result == expected_result
+
+
+def test_decide(capsys):
+    decide()
+    captured = capsys.readouterr()
+
+    assert captured.out == "NO\n"
