@@ -93,18 +93,18 @@ def decide(
         "RADIUS1": (float, int),
         "EPSILON": (float, int),
         "AREA1": (float, int),
-        "QPTS": int,
+        "Q_PTS": int,
         "QUADS": int,
         "DIST": (float, int),
-        "NPTS": int,
-        "KPTS": int,
-        "APTS": int,
-        "BPTS": int,
-        "CPTS": int,
-        "DPTS": int,
-        "EPTS": int,
-        "FPTS": int,
-        "GPTS": int,
+        "N_PTS": int,
+        "K_PTS": int,
+        "A_PTS": int,
+        "B_PTS": int,
+        "C_PTS": int,
+        "D_PTS": int,
+        "E_PTS": int,
+        "F_PTS": int,
+        "G_PTS": int,
         "LENGTH2": (float, int),
         "RADIUS2": (float, int),
         "AREA2": (float, int),
@@ -112,12 +112,12 @@ def decide(
 
     for param, expected_type in required_params.items():
         if param not in PARAMETERS:
-            print("Missing parameter: {param}")
+            print("Missing parameter: {}".format(param))
             return
         
         param_value = PARAMETERS[param]
         if not isinstance(param_value, expected_type):
-            print("Invalid parameter: {param}")
+            print("Invalid parameter: {}".format(param))
             return
 
     if not isinstance(LCM, list) or len(LCM) != 15 or not all(len(row) == 15 for row in LCM):
