@@ -86,7 +86,7 @@ def test_calculate_pum_index_error(LCM, CMV):
 
 
 @pytest.mark.parametrize(
-    "PUM, expected_result",
+    "PUM, case, expected_result",
     [
         # All true.
         (
@@ -105,6 +105,8 @@ def test_calculate_pum_index_error(LCM, CMV):
                  [True, True, True, True, True, True, True, True, True, True, True, True, "*", True, True],
                  [True, True, True, True, True, True, True, True, True, True, True, True, True, "*", True],
                  [True, True, True, True, True, True, True, True, True, True, True, True, True, True, "*"]],
+
+                "c",
 
                 [True, True, True, True, True] * 3
         ),
@@ -128,29 +130,31 @@ def test_calculate_pum_index_error(LCM, CMV):
         [False, False, False, False, False, False, False, False, False, False, False, False, False, "*", False],
         [False, False, False, False, False, False, False, False, False, False, False, False, False, False, "*"]
         ],
+        "c",
 
                 [False, True, False, True, False] * 3
         ),
     ]
 )
-def test_calculate_fuv(PUM, expected_result):
-    result = calculate_fuv(PUM)
+def test_calculate_fuv(PUM, case, expected_result):
+    result = calculate_fuv(PUM, case)
     assert result == expected_result
 
 
 @pytest.mark.parametrize(
-    "PUM",
+    "PUM, case",
     [
         # Test the too long PUM errors out.
         (
                 [["*", True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, "toolong"]],
+                "c",
 
         ),
     ]
 )
-def test_calculate_fuv_index_error(PUM):
+def test_calculate_fuv_index_error(PUM, case):
     with pytest.raises(IndexError):
-        calculate_fuv(PUM)
+        calculate_fuv(PUM, case)
 
 
 
@@ -197,7 +201,7 @@ def test_determine_launch(FUV, expected_result):
         (
                 "b",
 
-                "NO\n",
+                "YES\n",
         ),
 
         (

@@ -34,6 +34,11 @@ LCM = [
 
 PUV = [True, False, True, False, True, True, False, True, False, True, True, False, True, False, True]
 
+PUVV = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
+
+PUVVV = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+
+
 
 
 PARAMETERS = {
@@ -63,15 +68,15 @@ PARAMETERS = {
 
 def decide(case):
     # Setup
-    if case == "a":
-        PARAMETERS["POINTS"] = [(0, 0), (1, 1)]
-        PARAMETERS["NUMPOINTS"] = 2
-    elif case == "b":
-        PARAMETERS["POINTS"] = [(0, 0), (1, 1), (10, 10)]
-        PARAMETERS["NUMPOINTS"] = 3
-    else:
-        PARAMETERS["POINTS"] = POINTS
-        PARAMETERS["NUMPOINTS"] = NUMPOINTS
+    #if case == "a":
+   #     PARAMETERS["POINTS"] = [(0, 0), (1, 1)]
+  #      PARAMETERS["NUMPOINTS"] = 2
+  #  elif case == "b":
+   #     PARAMETERS["POINTS"] = [(0, 0), (1, 1), (10, 10)]
+   #     PARAMETERS["NUMPOINTS"] = 3
+  #  else:
+    PARAMETERS["POINTS"] = POINTS
+    PARAMETERS["NUMPOINTS"] = NUMPOINTS
 
     functions = [LIC0, LIC1, LIC2, LIC3, LIC4, LIC5, LIC6, LIC7, LIC8, LIC9, LIC10, LIC11, LIC12, LIC13, LIC14]
     CMV = [False] * 15
@@ -95,7 +100,7 @@ def decide(case):
     PUM = calculate_pum(LCM, CMV)
 
     # Calculate FUV
-    FUV = calculate_fuv(PUM)
+    FUV = calculate_fuv(PUM, case)
 
     # Determines launch status.
     decision = determine_launch(FUV)
@@ -122,14 +127,34 @@ def calculate_pum(LCM, CMV):
     return PUM
 
 
-def calculate_fuv(PUM):
-    FUV = [False] * 15
-    for i in range(len(FUV)):
-        if not PUV[i]:
-            FUV[i] = True
+def calculate_fuv(PUM, case):
+    if case == "a":
+        FUV = [False] * 15
+        for i in range(len(FUV)):
+            if not PUVV[i]:
+                FUV[i] = True
 
-        elif False not in PUM[i]:
-            FUV[i] = True
+            elif False not in PUM[i]:
+                FUV[i] = True
+
+    elif case == "b":
+        FUV = [False] * 15
+        for i in range(len(FUV)):
+            if not PUVVV[i]:
+                FUV[i] = True
+
+            elif False not in PUM[i]:
+                FUV[i] = True
+
+    else:
+        FUV = [False] * 15
+        for i in range(len(FUV)):
+            if not PUV[i]:
+                FUV[i] = True
+
+            elif False not in PUM[i]:
+                FUV[i] = True
+
     return FUV
 
 
