@@ -22,6 +22,23 @@ from src.main import *
           [False, True, True, "*", True],
           [True, True, True, True, "*"]]
          ),
+
+        ([[False] * 5 for _ in range(5)],
+
+         [["ANDD", "ANDD", "ORR", "ANDD", "NOTUSED"],
+          ["ANDD", "ANDD", "ORR", "ORR", "NOTUSED"],
+          ["ORR", "ORR", "ANDD", "ANDD", "NOTUSED"],
+          ["ANDD", "ORR", "ANDD", "ANDD", "NOTUSED"],
+          ["NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED", "NOTUSED"]],
+
+         [False, True, True, True, False],
+
+         [["*", False, True, False, True],
+          [False, "*", True, True, True],
+          [True, True, "*", True, True],
+          [False, True, True, "*", True],
+          [True, True, True, True, "*"]]
+         )
     ]
 )
 def test_calculate_pum(PUM, LCM, CMV, expected_result):
