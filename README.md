@@ -3,6 +3,26 @@ This repo contains an implementation of a hypothetical anti-ballistic missile sy
 
 The program will print either "YES" or "NO" to standard output, depending on if the missile will be launched.
 
+## Tech Stack
+* This program is written in **Python 3.13**.
+* Unit tests and integration tests are implemented using **Pytest 8.3.4**
+* **GitHub Actions** is used to automate CI/CD workflows.
+
+## Run and Test
+First you need to install Python and navigate to the root directory:
+```
+% cd Launch-Interceptor-Program/
+% pip install -r requirements.txt
+```
+To run all tests, you can use:
+```
+% pytest test/
+```
+To run the program (invoke decide() with hard-coded inputs), you can use:
+```
+% python -m src.main
+```
+
 ## Contributions
 * Oscar Hellgren
   * CMV, PUV, FUV, LAUNCH
